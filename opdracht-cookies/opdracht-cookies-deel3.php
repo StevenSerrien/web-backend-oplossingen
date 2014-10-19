@@ -5,12 +5,13 @@ $paswoord = '';
 $errorMessage = "";
 $isIngelogd = false;
 
-$txt = file_get_contents('deel1.txt');
+$txt = file_get_contents('deel2.txt');
 $txt = explode(',', $txt);
+$lengteTxt = count($txt);
 
 if (isset($_GET['logout'])) {
-	setcookie('authenticated', '', time() - 360);
-	header( 'location: opdracht-cookies-deel2.php' );
+	setcookie('authenticatedUser', '', time() - 360);
+	header( 'location: opdracht-cookies-deel3.php' );
 }
 
 if (isset($_POST['submit'])) {
@@ -19,7 +20,10 @@ if (isset($_POST['submit'])) {
 	$password = $_POST['password'];
 
 
-	if (($username == $txt[0]) && ($password == $txt[1])) {
+	$i = 0;
+	while ( $i < $lengteTxt ) { 
+		
+		if (($username == $txt[$i]) && ($password == $txt[$i+1])) {
 		
 			if (isset($_POST['rememberMe'])) {
 				$cookieTijd = 2592000;
@@ -29,19 +33,27 @@ if (isset($_POST['submit'])) {
 				$cookieTijd = 360;
 			}
 
-		setcookie('authenticated', true, time() + $cookieTijd);
-		header( 'location: opdracht-cookies-deel2.php' );
-	}
-	else
-	{
-		$errorMessage = "Gebruikersnaam en/of paswoord niet correct. Probeer opnieuw.";
-	}
+			setcookie('authenticatedUser', $txt[$i], time() + $cookieTijd);
+			header( 'location: opdracht-cookies-deel3.php' );
+			}
+			else
+			{
+				$errorMessage = "Gebruikersnaam en/of paswoord niet correct. Probeer opnieuw.";
+			}
 
+			$i = $i + 2;
+
+
+
+	}
+	
 
 }
 
-if (isset($_COOKIE['authenticated'])) {
-	$errorMessage = "U bent ingelogd.";
+if (isset($_COOKIE['authenticatedUser'])) {
+
+	$user = $_COOKIE['authenticatedUser'];
+	$errorMessage = "Dag " .$user. "! U bent ingelogd.";
 	$isIngelogd = true;
 }
 ?>
@@ -58,7 +70,7 @@ if (isset($_COOKIE['authenticated'])) {
 		
 		<?php if ( !$isIngelogd) : ?>
 				
-			<form action="opdracht-cookies-deel2.php" method="POST">
+			<form action="opdracht-cookies-deel3.php" method="POST">
 				<ul>
 					<li>
 						<label for="username">Gebruikersnaam: </label>
@@ -77,7 +89,7 @@ if (isset($_COOKIE['authenticated'])) {
 			</form>
 		<?php else: ?>
 
-		<a href="opdracht-cookies-deel2.php?logout=true">Uitloggen</a>
+		<a href="opdracht-cookies-deel3.php?logout=true">Uitloggen</a>
 		<?php endif ?>
 
 
