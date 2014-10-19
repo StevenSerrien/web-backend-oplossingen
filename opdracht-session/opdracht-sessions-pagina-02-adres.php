@@ -8,8 +8,20 @@ if (isset($_POST['submit'])) {
     $_SESSION['aanmeldingsgegevens']['data']['email'] = $_POST['email'];
     
 }
-
 $aanmeldingsgegevens['data'] = $_SESSION['aanmeldingsgegevens']['data'];
+
+//Lege string variabelen
+$straat = '';
+$nummer = '';
+$gemeente = '';
+$postcode = '';
+
+if (isset($_SESSION['aanmeldingsgegevens']['adres'])) {
+    $straat = $_SESSION['aanmeldingsgegevens']['adres']['straat'];
+    $nummer = $_SESSION['aanmeldingsgegevens']['adres']['nummer'];
+    $gemeente = $_SESSION['aanmeldingsgegevens']['adres']['gemeente'];
+    $postcode = $_SESSION['aanmeldingsgegevens']['adres']['postcode'];
+}
 
 ?>
 
@@ -28,6 +40,7 @@ $aanmeldingsgegevens['data'] = $_SESSION['aanmeldingsgegevens']['data'];
         <ul>
             <?php foreach ($aanmeldingsgegevens['data'] as $key => $value) : ?>
                 <li><?= $key ?>: <?= $value?><li>
+
             <?php endforeach ?>
             
         </ul>
@@ -39,19 +52,19 @@ $aanmeldingsgegevens['data'] = $_SESSION['aanmeldingsgegevens']['data'];
             <ul>
                 <li>
                     <label for="straat">straat</label>
-                    <input type="text" id="straat" name="straat" value="" placeholder="vul straat in"  >
+                    <input type="text" id="straat" name="straat" value="<?= $straat ?>" placeholder="vul straat in"  <?= ( isset( $_GET['focus'] ) && $_GET['focus'] == "straat" ) ? 'autofocus' : '' ?>>
                 </li>
                 <li>
                     <label for="nummer">nummer</label>
-                    <input type="text" id="nummer" name="nummer" value="" placeholder="vul nummer in"  >
+                    <input type="text" id="nummer" name="nummer" value="<?= $nummer ?>" placeholder="vul nummer in" <?= ( isset( $_GET['focus'] ) && $_GET['focus'] == "nummer" ) ? 'autofocus' : '' ?> >
                 </li>
                 <li>
                     <label for="gemeente">gemeente</label>
-                    <input type="text" id="gemeente" name="gemeente" value="" placeholder="vul gemeente in"  >
+                    <input type="text" id="gemeente" name="gemeente" value="<?= $gemeente ?>" placeholder="vul gemeente in" <?= ( isset( $_GET['focus'] ) && $_GET['focus'] == "gemeente" ) ? 'autofocus' : '' ?>>
                 </li>
                 <li>
                     <label for="postcode">postcode</label>
-                    <input type="text" id="postcode" name="postcode" value="" placeholder="vul postcode in"  >
+                    <input type="text" id="postcode" name="postcode" value="<?= $postcode ?>" placeholder="vul postcode in" <?= ( isset( $_GET['focus'] ) && $_GET['focus'] == "postcode" ) ? 'autofocus' : '' ?> >
                 </li>
             </ul>
 

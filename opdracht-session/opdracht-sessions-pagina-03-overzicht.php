@@ -29,7 +29,13 @@ $aanmeldingsgegevens = $_SESSION['aanmeldingsgegevens'];
 
         <?php foreach ($array as $data => $value) : ?>
         <li>
-            <?= $data ?> - <=? $value ?> 
+            <?= $data ?> - <?= $value ?>
+            <?php if ($key == 'adres') : ?>
+                <p><a href="opdracht-sessions-pagina-02-adres.php?focus=<?= $data ?>">Wijzig</a></p>
+            
+            <?php elseif ($key == 'data') : ?>
+                <p><a href="opdracht-sessions-pagina-01-registratie.php?focus=<?= $data ?>">Wijzig</a></p>
+        <?php endif ?>
         <li>
             
         
