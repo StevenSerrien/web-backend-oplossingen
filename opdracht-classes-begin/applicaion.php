@@ -18,7 +18,7 @@ $percent = new Percent(150, 100);
 <body>
 
 <table>
-	<caption>Hoeveel procent is <?php echo $new ?> van <?php echo $unit ?>?</caption>
+	<caption>Hoeveel procent is 150 van 100?</caption>
 	<tr>
 		<td>Absoluut</td>
 		<td><?php echo $percent->absolute ?></td>
