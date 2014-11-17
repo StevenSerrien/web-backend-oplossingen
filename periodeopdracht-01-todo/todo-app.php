@@ -12,7 +12,7 @@ if (!isset($_POST['submit'])) {
 if (isset($_POST['submit'])) {
 	
 	 $_SESSION['todolist']['todo']['items'][] = $_POST['beschrijving'];
-	 
+
      //$_SESSION['todolist']['done'] = $_POST['email'];
 }
 $todoArray = $_SESSION['todolist']['todo']['items'];
@@ -32,10 +32,12 @@ if (isset($_GET['todoDelete'])) {
 	foreach ($todoArray as $id => $item) {
 		if ($_GET['todoDelete'] == $id ) {
 			unset($todoArray[$id]);
-			var_dump($todoArray);
+			unset($_SESSION['todolist']['todo']['items'][$id]);
+			
 		}
 	}
 }
+var_dump($todoArray);
 
 
 ?>
@@ -51,7 +53,7 @@ if (isset($_GET['todoDelete'])) {
 <h2>Nog te doen:</h2>
 <ul>
 <?php foreach  ($todoArray as $id => $item)  : ?>
- 	<li> <?= $item ?> <a href="todo-app.php?todoDelete=<?= $id ?>">Verwijder</a> </li>
+ 	<li> <?= $item ?> --- <a href="todo-app.php?todoDelete=<?= $id ?>">Verwijder</a> </li>
 <?php endforeach ?>
 </ul>
 
