@@ -15,7 +15,16 @@ if (isset($_POST['submit'])) {
 
      //$_SESSION['todolist']['done'] = $_POST['email'];
 }
-$todoArray = $_SESSION['todolist']['todo']['items'];
+
+if (!empty($_SESSION['todolist']['todo']['items'])) {
+	$todoArray = $_SESSION['todolist']['todo']['items'];
+}
+
+
+if (!empty($_SESSION['todolist']['done']['items'])) {
+	$doneArray = $_SESSION['todolist']['done']['items'];
+}
+
 
 
 var_dump($todoArray);
@@ -28,12 +37,33 @@ if (isset($_GET['session'])) {
 		}
 }
 
+
+//KNOPPEN VERWIJDEREN EN GEDAAN
 if (isset($_GET['todoDelete'])) {
 	foreach ($todoArray as $id => $item) {
 		if ($_GET['todoDelete'] == $id ) {
 			unset($todoArray[$id]);
 			unset($_SESSION['todolist']['todo']['items'][$id]);
 			
+		}
+	}
+}
+elseif (isset($_GET['todoDone'])) {
+	foreach ($todoArray as $id => $item) {
+		if ($_GET['todoDone'] == $id) {
+			$_SESSION['todolist']['done']['items'][] = $_SESSION['todolist']['todo']['items'][$id];
+			$doneArray = $_SESSION['todolist']['done']['items'];
+			unset($todoArray[$id]);
+			unset($_SESSION['todolist']['todo']['items'][$id]);
+		}
+	}
+}
+elseif (isset($_GET['doneDelete'])) {
+	foreach ($doneArray as $id => $item) {
+		if ($_GET['doneDelete'] == $id) {
+			
+			unset($doneArray[$id]);
+			unset($_SESSION['todolist']['done']['items'][$id]);
 		}
 	}
 }
@@ -49,15 +79,32 @@ var_dump($todoArray);
 </head>
 <body>
 
+
+	
+
 <h1>ToDo App</h1>
 <h2>Nog te doen:</h2>
 <ul>
+
+<?php if (!empty($todoArray)) : ?>
+
 <?php foreach  ($todoArray as $id => $item)  : ?>
- 	<li> <?= $item ?> --- <a href="todo-app.php?todoDelete=<?= $id ?>">Verwijder</a> </li>
+ 	<li> <?= $item ?> --- <a href="todo-app.php?todoDelete=<?= $id ?>">Verwijder</a> --- <a href="todo-app.php?todoDone=<?= $id ?>"> Gedaan </a></li>
 <?php endforeach ?>
+
+<?php endif ?>
 </ul>
 
 <h2> Done </h2>
+
+<ul>
+	<?php if (!empty($doneArray)) : ?>
+<?php foreach  ($doneArray as $id => $item)  : ?>
+ 	<li> <?= $item ?> --- <a href="todo-app.php?doneDelete=<?= $id ?>">Verwijder</a> </li>
+<?php endforeach ?>
+
+<?php endif ?>
+</ul>
 
 
 <h2> Voeg een item toe </h2>
