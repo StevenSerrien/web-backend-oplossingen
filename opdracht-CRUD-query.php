@@ -14,7 +14,8 @@ try
                   INNER JOIN brouwers
                   ON bieren.brouwernr = brouwers.brouwernr
                   WHERE brouwers.brnaam LIKE :reqLike1
-                  AND bieren.naam LIKE :reqLike2';
+                  AND bieren.naam LIKE :reqLike2'
+                  ;
 
   $statement = $db->prepare($queryString);
   $statement->bindValue(':reqLike1', $reqLike1);
@@ -45,6 +46,14 @@ foreach ($fetchAssoc[0] as $key => $value) {
 <html>
 <head>
   <title>Opdracht CRUD Query</title>
+  <style>
+
+ 
+      tbody tr:nth-of-type(even) {
+      background-color:#FFDADA;
+      }
+
+  </style>
 </head>
 <body>
 <h1>Tabel opdracht CRUD Query </h1>
