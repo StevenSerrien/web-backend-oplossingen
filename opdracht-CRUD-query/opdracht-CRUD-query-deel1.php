@@ -35,8 +35,7 @@ foreach ($fetchAssoc[0] as $key => $value) {
   $kolomNamen[] = $key;
 }
 
-var_dump($fetchAssoc);
-var_dump($kolomNamen);
+
 
   
 } catch (PDOException $e) {
