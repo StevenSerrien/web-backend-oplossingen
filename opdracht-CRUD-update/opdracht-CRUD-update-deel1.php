@@ -41,6 +41,41 @@
 	
 	}
 
+	//CONFIRM EDIT
+
+		if (isset($_POST['confirm-edit'])) {
+		
+
+		$updateQuery = 'UPDATE brouwers
+						SET brnaam = :brnaam,
+						 	adres = :adres,
+						 	postcode = :postcode,
+						 	gemeente = :gemeente,
+						 	omzet = :omzet
+						WHERE brouwernr = :brouwernr
+						LIMIT 1';
+
+		$statement = $db->prepare($updateQuery);
+
+		
+		$statement->bindValue(":brnaam", $_POST['brnaam']);
+		$statement->bindValue(":adres", $_POST['adres']);
+		$statement->bindValue(":postcode", $_POST['postcode']);
+		$statement->bindValue(":gemeente", $_POST['gemeente']);
+		$statement->bindValue(":omzet", $_POST['omzet']);
+		$statement->bindValue(":brouwernr", $_POST['confirm-edit']);
+
+		$resultaat = $statement->execute();
+
+		if ($resultaat) {
+			$message ='Wijziging op record:  ' . $_POST[ 'brnaam' ] . ' is gelukt.';
+		}
+		else
+		{
+			$message = 'Update is niet gelukt.'  . $statement->errorInfo()[2];
+		}
+	}
+
 	//SELECT
 	
 	$selectQuery = 'SELECT *
@@ -96,38 +131,7 @@
 		}
 	}
 
-	if (isset($_POST['confirm-edit'])) {
-		
 
-		$updateQuery = 'UPDATE brouwers
-						SET brnaam = :brnaam,
-						SET adres = :adres,
-						SET postcode = :postcode,
-						SET gemeente = :gemeente,
-						SET omzet = :omzet
-						WHERE brouwernr = :brouwernr
-						LIMIT 1';
-
-		$statement = $db->prepare($updateQuery);
-
-		
-		$statement->bindValue(":brnaam", $_POST['brnaam']);
-		$statement->bindValue(":adres", $_POST['adres']);
-		$statement->bindValue(":postcode", $_POST['postcode']);
-		$statement->bindValue(":gemeente", $_POST['gemeente']);
-		$statement->bindValue(":omzet", $_POST['omzet']);
-		$statement->bindValue(":brouwernr", $_POST['confirm-edit']);
-
-		$resultaat = $statement->execute();
-
-		if ($resultaat) {
-			$message ='Wijziging op record:  ' . $_POST[ 'brnaam' ] . ' is gelukt.';
-		}
-		else
-		{
-			$message = 'Update is niet gelukt.'  . $statement->errorInfo()[2];
-		}
-	}
 	
 
 
