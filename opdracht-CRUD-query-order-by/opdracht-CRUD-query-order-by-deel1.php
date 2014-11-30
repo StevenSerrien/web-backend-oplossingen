@@ -15,9 +15,22 @@
 
 		$orderKolom = $explodeArray[0];
 		$order = $explodeArray[1];
+
+		$orderString = 'ORDER BY ' . $orderKolom . ' ' . $order;
+
+		if ($order != 'DESC') {
+			$order = 'DESC';
+		}
+		else
+		{
+			$order = 'ASC';
+		}
+		
 	}
 
-	$orderString = 'ORDER BY ' . $orderKolom . ' ' . $order;
+
+
+	
 
 	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'root');
 	$selectQuery = 'SELECT bieren.biernr, bieren.naam, brouwers.brnaam, soorten.soort, bieren.alcohol
@@ -106,7 +119,7 @@
         	<thead>
         		<tr>
         			<?php foreach ($kolomNamen as $key => $value) : ?>
-        				<th><a href="<?= $_SERVER['PHP_SELF'] ?>?order_by=<?=$value?>-<?= $order?>"><?=$value?></a></th>
+        				<th class="order <?= ($value == $orderKolom && $order == 'ASC') ? 'descending' : 'ascending' ?>" ><a href="<?= $_SERVER['PHP_SELF'] ?>?order_by=<?=$value?>-<?= $order?>"><?=$value?></a></th>
         			<?php endforeach ?>
         		</tr>
         	</thead>
