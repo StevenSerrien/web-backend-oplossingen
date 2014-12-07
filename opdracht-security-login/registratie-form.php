@@ -1,4 +1,3 @@
-
 <?php 
 session_start();
 
@@ -7,17 +6,39 @@ function __autoload($class)
 {
     require_once($classname . '.php');
 }
-
+//RESET
+if (isset($_GET['session'])) {
+    if($_GET['session'] === 'destroy')
+        {
+            session_destroy();
+            header('Location: registratie-form.php'); // staat in voor refresh
+        }
+}
+//RESET
 $email = "";
 $password = "";
+
+$errorEmail = "";
+$errorPassword = "";
+$userExist = "";
 
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
     $email = $_SESSION['email'];
     $password = $_SESSION['password'];
 }
 
+if (isset($_SESSION['notification'])){
+    
+    $errorPassword = $_SESSION['notification']['errorpassword'];
+    $errorEmail = $_SESSION['notification']['errormail'];
+    $userExist = $_SESSION['notification']['userexist'];
+
+}
+
+
 
 ?>
+
 <!doctype html>
 <html>
     <head>
@@ -36,11 +57,14 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
         	<li>
         		<label for="email">e-mail</label>
 				<input type="text" name="email" id="email" value="<?= $email ?>" >
+                <?= $errorEmail ?>
+                <?= $userExist ?>
 			</li>
 			<li>
 				<label for="paswoord">paswoord</label>
-				<input type="text" name="paswoord" id="paswoord"  value="<?= $password ?>">
+				<input type="text" name="password" id="password"  value="<?= $password ?>">
 				<input type="submit" name="generatePassword" value="Genereer een paswoord">
+                <?= $errorPassword ?>
 			</li>
 			<li>
 				<input type="submit" name="register" value="registreer">
@@ -48,6 +72,6 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 		</ul>
         </form>
-        
+        <a href="registratie-form.php?session=destroy">Reset de sessie</a>
     </body>
 </html>
