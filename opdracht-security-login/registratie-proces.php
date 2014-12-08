@@ -57,9 +57,37 @@ if (isset($_POST['register'])) {
 
 		if (isset($userData[0])) {
 			$_SESSION['notification']['userexist'] = "User bestaat al met dat email adres.";
-		}else
+		}
+		else
 		{
+
+			$salt = uniqid(mt_rand(), true);
+			$password = $_POST['password'];
+			$saltedPassword = $salt . $password;
+			$hashedPassword = hash('sha512', $saltedPassword);
+
+
+
+			$insertQuery = 'INSERT INTO users
+							(email, salt, hashed_password, last_login_time)
+							VALUES
+							(:email, :salt, :hashed_password, NOW())';
+
+			$insertStatement = $db->prepare($insertQuery);
+			$insertStatement->bindValue(":email", $_POST['email']);
+			$insertStatement->bindValue(":salt", $salt);
+			$insertStatement->bindValue(":hashed_password", $hashedPassword);
+			
+
+			$userToevoegenIsGelukt = $insertStatement->execute();
+			if (!$userToevoegenIsGelukt) {
+				
+			}
+
+
+
 			$_SESSION['notification']['userexist'] = "";
+
 		}
 						
 	}
