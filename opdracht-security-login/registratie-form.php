@@ -1,11 +1,7 @@
 <?php 
 session_start();
 
-//AUTOLOAD
-function __autoload($class)
-{
-    require_once($classname . '.php');
-}
+
 //RESET
 if (isset($_GET['session'])) {
     if($_GET['session'] === 'destroy')

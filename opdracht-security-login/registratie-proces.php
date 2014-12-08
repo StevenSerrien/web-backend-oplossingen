@@ -1,11 +1,7 @@
 <?php
 
 session_start();
-//AUTLOAD
-function __autoload($class)
-{
-    require_once($class . '.php');
-}
+
 
 if (isset($_POST['generatePassword'])) {
 	$randomPassword = generatePassword(8, true, true, true, false);
