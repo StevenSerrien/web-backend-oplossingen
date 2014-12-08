@@ -63,6 +63,7 @@ if (isset($_POST['register'])) {
 
 			$salt = uniqid(mt_rand(), true);
 			$password = $_POST['password'];
+			$email = $_POST['email'];
 			$saltedPassword = $salt . $password;
 			$hashedPassword = hash('sha512', $saltedPassword);
 
@@ -80,8 +81,19 @@ if (isset($_POST['register'])) {
 			
 
 			$userToevoegenIsGelukt = $insertStatement->execute();
-			if (!$userToevoegenIsGelukt) {
+			if ($userToevoegenIsGelukt) {
 				
+				$saltedEmail = $salt . $email;
+				$hashedEmail = hash('sha512', $saltedEmail);
+
+				$cookieValue = $email . ',' . $hashedEmail;
+				setcookie('login', $cookieValue, time()+(3600*24*30));
+
+				header('location: dashboard.php');
+			}
+			else
+			{
+
 			}
 
 
