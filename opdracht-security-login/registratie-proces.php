@@ -110,8 +110,10 @@ if (isset($_POST['register'])) {
 			$ErrorPassword = "Paswoord is niet geldig.";
 			$_SESSION['notification']['errorpassword'] = $ErrorPassword;
 		}
+
+
+		header('location: registratie-form.php');
 	}
-header('location: registratie-form.php');
 }
 
 
