@@ -1,9 +1,12 @@
 <?php 
 
+
+session_start();
+
 if (isset($_COOKIE['login'])) {
 
 	$cookieArray = array();
-	$cookieArray = explode(',', $_COOKIE['login'])
+	$cookieArray = explode(',', $_COOKIE['login']);
 
 	$email = $cookieArray[0];
 	$hashedEmail = $cookieArray[1];
@@ -28,10 +31,17 @@ if (isset($_COOKIE['login'])) {
 		}
 
 	var_dump($saltArray);
-}
-else
-{
-	//header('location: login-form.php');
+
+	$emailToCheckWith = hash('sha512', $saltArray[0]['salt'] . $email);
+	
+	if ($emailToCheckWith == $hashedEmail) {
+		$loginIsValid = true;
+ 	}
+ 	else
+ 	{
+ 		setcookie('login', '', time() - 3600);
+ 		
+ 	}
 }
 
 
@@ -49,7 +59,12 @@ else
         <link rel="author" href="humans.txt">
     </head>
     <body>
+
+    	<?php if ($loginIsValid) : ?>
+    		<h1>Dashboard</h1>
+        	<a href="logout.php?logout=true">Uitloggen</a>
+    	<?php endif ?>
         
-        <script src="js/main.js"></script>
+        
     </body>
 </html>
